@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfilController!{% endblock %}
+
+{% block body %}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Membre</th>
+            <th>Date de départ</th>
+            <th>Date de fin</th>
+            <th>Prix total</th>
+            <th>Date d'enregistrement</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for commande in commandes %}
+            <tr>
+                <td>{{ commande.membre }}</td>
+                <td>{{ commande.date_heure_depart|date('d/m/Y à H:i:s') }}</td>
+                <td>{{ commande.date_heure_fin|date('d/m/Y à H:i:s') }}</td>
+                <td>{{ commande.prix_total }}</td>
+                <td>{{ commande.date_enregistrement|date('d/m/Y à H:i:s') }}</td>
+            </tr>
+        {% endfor %}
+    
+    </tbody>
+</table>
+
+{% endblock %}
