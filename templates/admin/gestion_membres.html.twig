@@ -6,8 +6,10 @@
         <thead class="table-dark">
             <tr>
                 {% for data in champs %}
-                    <th>{{ data }}</th>
-                {% endfor %}
+                    {% if data != 'password' %}
+                            <th>{{ data|capitalize|replace({'_': '&nbsp;'})|raw }}</th>
+                        {% endif %}
+                 {% endfor %}
                 {# <th>Detail</th> #}
                 <th>Modif</th>
                 <th>Suppr</th>
@@ -20,14 +22,25 @@
                 <tr>
                     <td style="width: 50px">{{ membre.id }}</td>
                     <td>{{ membre.pseudo }}</td>
-                    <td>{{ membre.password }}</td>
+                    <td>
+                            {% if 'ROLE_ADMIN' in membre.roles %}
+                                Admin
+                                {% if 'ROLE_USER' in membre.roles %}
+                                &nbsp;et Membre
+                                {% endif %}
+                            {% else %}
+                                Membre
+                            {% endif %}
+                        </td>
+
+
                     <td>{{ membre.nom }}</td>
                     <td>{{ membre.prenom }}</td>
                     <td>{{ membre.email }}</td>
                     <td>{{ membre.civilite }}</td>
-                    {# <td>{{ membre.roles }}</td> #}
+                    
                     {# <td>{{ vehicule.dateEnregistrement|date('d/m/Y à H:i:s') }}</td> #}
-                    {# <td>
+                    <td>
                             {{ membre.dateEnregistrement|date("d/m/Y") }}
                             <br>
                             {{ membre.dateEnregistrement|date("H") }}h{{ membre.dateEnregistrement|date("m") }}
@@ -41,17 +54,17 @@
                         <a href="{{ path("admin_delete_membre", {id: membre.id}) }}" class="text-danger ">
                             <i class="fas fa-trash"></i>
                         </a>
-                    </td> #}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     
     </table>
-
+    <div>
     <h1>Ajout d'un membre</h1>
 
         {{ form_start(formMembre) }}
-
+    <table class="table">
         {{ form_row(formMembre.pseudo, {
             label: "Pseudo",
             attr: {
@@ -94,8 +107,10 @@
             }
         }) }}
 
-        <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
+        {{ form_row(formMembre.roles) }}
 
+        <button type="submit" class="btn btn-primary mt-2">Enregistrer</button>
+    </table>
         {{ form_end(formMembre) }}
-            
+    </div>
 {% endblock %}

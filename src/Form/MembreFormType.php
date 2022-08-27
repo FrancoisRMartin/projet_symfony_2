@@ -18,13 +18,22 @@ class MembreFormType extends AbstractType
             ->add('nom')
             ->add('prenom')
             ->add('email')
-            ->add('civilite')
-            // ->add('roles', ChoiceType::class, array(
-            //     'expanded' => [
-            //         'Membre' => 'ROLE_USER',
-            //         'Admin' => 'ROLE_ADMIN'
-            //     ]
-            // ))
+            ->add('civilite', ChoiceType::class, array(
+                'choices' => [
+                    'Monsieur' => 'm',
+                    'Madame' => 'f',
+                ]
+            ))
+            ->add('roles', ChoiceType::class, array(
+                'expanded' => true,
+                'multiple' => true,
+                'choices' => [
+                    'Membre' => 'ROLE_USER',
+                    'Admin' => 'ROLE_ADMIN',
+                    // 'Membre & Admin' => ['ROLE_USER', 'ROLE_ADMIN']
+                ],
+                'required' => true
+            ))
             
         ;
     }
